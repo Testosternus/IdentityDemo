@@ -12,6 +12,8 @@ using IdentityDemo.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using IdentityDemo.Areas.Identity.Services;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace IdentityDemo
 {
@@ -38,7 +40,11 @@ namespace IdentityDemo
             {
                 options.Password.RequireNonAlphanumeric = false;
                 options.User.RequireUniqueEmail = true;
+                options.SignIn.RequireConfirmedEmail = true;
             });
+
+            services.AddSingleton<IEmailSender, EmailSender>();
+            services.Configure<AuthMessageSenderOptions>(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
